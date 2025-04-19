@@ -1,0 +1,225 @@
+
+<div class="w-3/4 mx-auto bg-gray-500 flex justify-between gap-0 align-top mb-10 h-full" style="flex-grow: 1;">
+    <!-- Conversation List -->
+    <div class="bg-sky-500 grid-cols-1 float-left px-1 overflow-y-scroll h-full" style="width: 30%;">
+        <h2>Conversations</h2>
+        {% for message in messages %}
+        <a href="{% url 'conversation:message_detail' message.id%}">
+            <div class="conversation-prev">
+                <div class="item-img" style="width: 75px;">
+                    <img src="{{ message.item.image.url }}">
+                </div>
+                <div class="conversatioin-msg-det">
+                    {% for member in message.members.all %}
+                    {% if member != request.user %}
+                    <p class="sender-det"><strong>{{ member }} | {{ message.modified_at }}</strong></p>
+                    <p class="subject-det" style="font-size: 50%; overflow-y: hidden;">{{ message.item.name }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <hr class="hr-border">
+        </a>
+        {% endfor %}
+    </div>
+    
+    <!-- Inbox Area -->
+    {% if conversation_i %}
+    <div class="inbox-area h-full" style="width: 70%; overflow-y: auto; max-height: 100vh;">
+        <form method="post" action="." class="">
+            {% csrf_token %}
+            <div class="inbox-header">
+                <a href="{% url 'conversation:messages' %}" class="back">⇽ Back</a>
+                <h1>Inbox</h1>
+            </div>
+            <hr>
+            <div class="message-body" id="messageBody">
+                {% for message in conversation_i.messages.all %}
+                <div class="px-4 py-2">
+                    {% if message.created_by == request.user %}
+                    <div class="flex items-center justify-end">
+                        <div class="bg-blue-500 text-white rounded-lg p-2 shadow mr-2 max-w-sm">
+                            <p>{{ message.content }}</p>
+                        </div>
+                        <img src="../../static/images/PP.png" alt="Test2" class="w-8 h-8 rounded-full">
+                    </div>
+                    {% else %}
+                    <div class="flex items-center mb-2">
+                        <img src="../../static/images/prof_animate.gif" alt="Sender" class="w-8 h-8 rounded-full mr-2">
+                        <div class="font-medium">{{ message.created_by }}</div>
+                    </div>
+                    <div class="bg-white rounded-lg p-2 shadow mb-2 max-w-fit">
+                        <p>{{ message.content }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="bg-gray-100 px-4 py-2">
+                <div class="flex items-center">
+                    <input class="w-full border rounded-full py-2 px-4 mr-2" type="text" name="content" placeholder="Type your message here...">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full" type="submit">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <p class="text-center">Please select a conversation to start chatting.</p>
+    {% endif %}
+</div>
+
+
+<!-- <div class="wrapper" style="display: flex;flex-direction: column;min-height: 100vh;">
+    <div class="w-3/4 mx-auto bg-slate-100 py-1 my-3 border-2xl">
+        <h1 class="text-center font-semibold text-black">Messages</h1>
+    </div>
+    
+    <div class="w-3/4 mx-auto bg-gray-500 flex justify-between gap-0 align-top mb-10">
+        <div class="bg-sky-500 grid-cols-1 float-left px-1 overflow-y-scroll h-full">
+            <h2>Conversations</h2> 
+            {% for message in messages %}
+            <a href="{% url 'conversation:message_detail' message.id%}">
+                <div class="conversation-prev ">
+                    <div class="item-img" style="width: 75px;">
+                        <img src="{{ message.item.image.url }}">
+                    </div>
+                    <div class="conversatioin-msg-det">
+                        {% for member in message.members.all %}
+                        {% if member != request.user %}
+                        <p class="sender-det" ><strong>{{ member }} | {{ message.modified_at }}</strong></p>
+                        <p class="subject-det" style="font-size: 50%; overflow-y: hidden;">{{ message.item.name }}</p>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr class="hr-border">
+            </a>
+            
+            {% endfor %}
+        </div> -->
+        <!-- Debug -->
+        <!-- {% if conversation_i %} -->
+        <!-- This will print if conversation_i exists -->
+        <!-- <p>{{ conversation_i }}</p>  
+        {% else %} -->
+        <!-- Debug to see if the variable is missing -->
+        <!-- <p>No conversation selected.</p> 
+        {% endif %} -->
+        <!-- End -->
+        <!-- Conversation  -->
+        <!-- <div class="inbox-area h-full">
+            {% if conversation_i %}
+            <form method="post" action="." class="">
+                {% csrf_token %}
+                <div class="inbox-header">
+                    <a href="{% url 'conversation:messages'%}" class="back"> ⇽ Back</a>
+                    <h1>Inbox</h1>
+                </div>
+                <hr>
+                <div class="message-body" id="messageBody">
+                    
+                    {% for message in conversation_i.messages.all %}
+                    <div class="px-4 py-2">
+                        {% if message.created_by == request.user %}
+                        <div class="flex items-center justify-end">
+                            <div class="bg-blue-500  text-white rounded-lg p-2 shadow mr-2 max-w-sm">
+                                <p>{{ message.content }}</p>
+                            </div>
+                            <img src="../../static/images/PP.png" alt="Test2" class="w-8 h-8 rounded-full">
+                        </div>
+                        {% else %}
+                        <div class="flex items-center mb-2">
+                            <img src="../../static/images/prof_animate.gif" alt="Sender" class="w-8 h-8 rounded-full mr-2">
+                            <div class="font-medium">{{ message.created_by }}</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-2 shadow mb-2 max-w-fit">
+                            <p>{{ message.content }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+                <div class="bg-gray-100 px-4 py-2">
+                    <div class="flex items-center">
+                        <input class="w-full border rounded-full py-2 px-4 mr-2" type="text" name="content" placeholder="Type your message here...">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full" type="submit">Send</button>
+                    </div>
+                </div>
+            </form> 
+            {% else %} -->
+            <!-- Debug to see if the variable is missing -->
+            <!-- <p class="text-center">No conversation selected.</p> 
+            {% endif %}
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="w-3/4 mx-auto bg-gray-500 flex justify-between gap-0 align-top mb-10 h-full" style="flex-grow: 1;"> -->
+    <!-- Conversation List -->
+    <!-- <div class="bg-sky-500 grid-cols-1 float-left px-1 overflow-y-scroll h-full" style="width: 30%;">
+        <h2>Conversations</h2>
+        {% for message in messages %}
+        <a href="{% url 'conversation:message_detail' message.id%}">
+            <div class="conversation-prev">
+                <div class="item-img" style="width: 75px;">
+                    <img src="{{ message.item.image.url }}">
+                </div>
+                <div class="conversatioin-msg-det">
+                    {% for member in message.members.all %}
+                    {% if member != request.user %}
+                    <p class="sender-det"><strong>{{ member }} | {{ message.modified_at }}</strong></p>
+                    <p class="subject-det" style="font-size: 50%; overflow-y: hidden;">{{ message.item.name }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <hr class="hr-border">
+        </a>
+        {% endfor %}
+    </div> -->
+    
+    <!-- Inbox Area -->
+    <!-- {% if conversation_i %}
+    <div class="inbox-area h-full" style="width: 70%; overflow-y: auto; max-height: 100vh;">
+        <form method="post" action="." class="">
+            {% csrf_token %}
+            <div class="inbox-header">
+                <a href="{% url 'conversation:messages' %}" class="back">⇽ Back</a>
+                <h1>Inbox</h1>
+            </div>
+            <hr>
+            <div class="message-body" id="messageBody">
+                {% for message in conversation_i.messages.all %}
+                <div class="px-4 py-2">
+                    {% if message.created_by == request.user %}
+                    <div class="flex items-center justify-end">
+                        <div class="bg-blue-500 text-white rounded-lg p-2 shadow mr-2 max-w-sm">
+                            <p>{{ message.content }}</p>
+                        </div>
+                        <img src="../../static/images/PP.png" alt="Test2" class="w-8 h-8 rounded-full">
+                    </div>
+                    {% else %}
+                    <div class="flex items-center mb-2">
+                        <img src="../../static/images/prof_animate.gif" alt="Sender" class="w-8 h-8 rounded-full mr-2">
+                        <div class="font-medium">{{ message.created_by }}</div>
+                    </div>
+                    <div class="bg-white rounded-lg p-2 shadow mb-2 max-w-fit">
+                        <p>{{ message.content }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="bg-gray-100 px-4 py-2">
+                <div class="flex items-center">
+                    <input class="w-full border rounded-full py-2 px-4 mr-2" type="text" name="content" placeholder="Type your message here...">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full" type="submit">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <p class="text-center">Please select a conversation to start chatting.</p>
+    {% endif %}
+</div> -->

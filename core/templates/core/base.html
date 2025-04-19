@@ -1,0 +1,121 @@
+{% load compress %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <script src="{% static 'assets/js/color-modes.js' %}"></script> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <title>{% block title %} {% endblock %} | Market Place</title>
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    <link rel="stylesheet" href="{% static 'src/mystyle.css' %}">
+    <link rel="stylesheet" href="{% static 'src/mystyle-items.css' %}">
+    <link rel="stylesheet" href="{% static 'src/mystyle.conversation.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'assets/dist/css/bootstrap.min.css' %}" > -->
+    {% endcompress %}
+    <style>
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures it covers full viewport height */
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="navigation">
+            <div class="company_name">
+                <a href="/">E-Comstore</a>
+            </div>
+            <div class="right-side" id="right-side">
+                <a href="{% url 'item:items' %}"> Browse</a>
+                
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'item:new' %}">New Item</a>
+                <a href="{% url 'conversation:inbox'%}" class="inbox-bt">Inbox</a>
+                <a href="{% url 'dashboard:index' %}" class="dashboard-bt">Dashboard</a>
+                <a href="#"> Hi {{ request.user.username }}</a>
+                <a href="" id="logt">
+                    <form action="{% url 'core:logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-butto" id="logt">Log Out</button>
+                    </form>
+                </a>
+                
+                {% else %}
+                <a href="{% url 'core:signup' %}" class="signup-btn">Sign Up</a>
+                <a href="{% url 'core:login' %}" class="login-btn">Login</a>
+                {% endif %}
+            </div>
+            
+            <div class="menu-icon" id="hamburger">
+                <!-- id = "toggle" onclick = "change()"> -->
+                <img src="../static/images/icons-menu.png" alt="Menu">
+            </div>
+        </div>
+        
+        <script>
+            const hamburger = document.getElementById('hamburger');
+            const menu = document.getElementById('right-side');
+            hamburger.addEventListener('click', () => {
+                menu.classList.toggle('active');
+            })
+        </script>
+        {% block content %}
+        
+        {% endblock %}
+        
+        
+        
+        
+        <div class="footer bg-gray-800"> 
+            <div class="about">
+                <h3 class="mb-5 font-semibold text-gray-400">About</h3>
+                <p class="text-sm text-gray-500">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+                    Vitae ea sequi optio fugit illum. Asperiores quasi 
+                    reprehenderit repellat hic fugit exercitationem eos 
+                    cupiditate vitae perferendis, repellendus quod veniam et 
+                    dignissimos!
+                </p>
+            </div>
+            <div class="contacts">
+                <h2 class="font-semibold text-gray-400">Contact Us</h2>
+                <p class="my-3"><strong>Address:</strong> <br>P. O. Box 123-4567, Town, Kenya</p>
+                <p class="my-3"><strong>Phone: </strong><a href="tel:+2541234567890">+2541234567890</a></p>
+                <p class="my-3"><strong>Email:</strong> <a href="mailto:info@ecomstore.com">info@ecomstore.com</a></p>
+                <p class="my-3"><strong>WhatsApp:</strong> +(254)1234567890</p>
+            </div>
+            <div class="menu">
+                <h3 class="font-semibold text-gray-400">Menu</h3>
+                <ul class="">
+                    <li><a href="{% url 'core:about' %}" class="text-lg text-teal-500 hover:text-teal-700">About</a></li>
+                    <li><a href="{% url 'core:contact' %}" class="text-lg text-teal-500 hover:text-teal-700">Contact Us</a></li>
+                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Privacy Policy</a></li>
+                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Terms of Use</a></li>
+                </ul>
+            </div>
+            <div class="social">
+                <h3 class="font-semibold text-gray-400">Follow Us</h3>
+                <div>
+                    <a href="#" class="text-lg text-teal-500 hover:text-teal-700">Facebook</a>
+                    <a href="#" class="text-lg text-teal-500 hover:text-teal-700">Telegram</a>
+                    <a href="#" class="text-lg text-teal-500 hover:text-teal-700">Instagram</a>
+                    <a href="#" class="text-lg text-teal-500 hover:text-teal-700">X</a>
+                </div>
+            </div>
+            <div class="feedback">
+                <h3 class="font-semibold text-gray-400">Send us your feedback</h3>
+                <label for="email">Your email</label>
+                <input type="email" name="email" id="feedback-email">
+                <label for="feedback-subject" class="font-semibold">Message</label>
+                <textarea name="feedback-subject" id="txtarea"></textarea>
+                <button class="">Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

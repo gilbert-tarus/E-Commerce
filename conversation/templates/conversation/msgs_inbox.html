@@ -1,0 +1,86 @@
+{% extends 'core/base.html'%}
+
+{% block title %} Inbox {% endblock %}
+
+{% block content %}
+<div class="messagesArea">
+    <div class="bg-white grid-cols-1 float-left px-1 overflow-y-scroll scro h-full border" style="width: 30%;">
+        <h2 class="text-center font-semibold">Conversations</h2>
+        <hr>
+        <ul style="list-style-type: none; padding: 0;">
+            <!-- List of messages (preview) -->
+            {% for message in messages %}
+            <li style="border-bottom: 1px solid #ddd; padding: 10px;">
+                <a href="{% url 'conversation:message_detail' message.id %}" style="text-decoration: none; color: black;">
+                    <div style="display: flex; align-items: center;">
+                        <!-- <div class="conversation-prev" style="border-bottom: 1px solid #ddd; padding: 10px;"> -->
+                            <!-- <div class="item-img" style="width: 75px;"> -->
+                            <!-- </div> -->
+                        <!-- </div> -->
+                        <img src="{{ message.item.image.url }}" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                    <!-- </div> -->
+                    <!-- <div class="conversatioin-msg-det"> -->
+                        <div>
+                            {% for member in message.members.all %}
+                            {% if member != request.user %}
+                            <p class="sender-det" style="text-transform: capitalize;"><strong>{{ member }} | {{ message.modified_at }}</strong></p>
+                            <p class="subject-det" style="font-size: 50%; overflow-y: hidden;">{{ message.item.name }}</p>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul> 
+    </div>
+    <!-- Right side (Conversation details) -->
+    <!-- Inbox Area -->
+    <div class="inbox-area">
+        {% if conversation_i %}
+        <div class="inbox-header">
+            <a href="{% url 'conversation:messages' %}" class="back">⇽ Back</a>
+            <h1>Inbox</h1>
+        </div>
+        <form method="post" action="." class="">
+            {% csrf_token %}
+            <hr>
+            <div class="message-body" id="messageBody">
+                {% for message in conversation_i.messages.all %}
+                <div class="px-4 py-2">
+                    {% if message.created_by == request.user %}
+                    <div class="flex items-center justify-end">
+                        <div class="bg-blue-500 text-white rounded-lg p-2 shadow mr-2 max-w-sm">
+                            <p>{{ message.content }}</p>
+                        </div>
+                        <img src="../../../static/images/PP.png" alt="Test2" class="w-8 h-8 rounded-full">
+                        
+                    </div>
+                    {% else %}
+                    <div class="flex items-center mb-2">
+                        <img src="../../../static/images/prof_animate.gif" alt="Sender" class="w-8 h-8 rounded-full mr-2">
+                        <div class="font-medium">{{ message.created_by }}</div>
+                    </div>
+                    <div class="bg-white rounded-lg p-2 shadow mb-2 max-w-fit">
+                        <p>{{ message.content }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="bg-gray-100 px-4 py-2">
+                <div class="flex items-center">
+                    <textarea name="content" class="w-full border rounded-3xl py-2 px-4 mr-2 resize-none" placeholder="Type your message here..."></textarea>
+                    <!-- <input class="w-full border rounded-full py-2 px-4 mr-2" type="text" name="content" placeholder="Type your message here..."> -->
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full" type="submit">Send</button>
+                </div>
+            </div>
+        </form>
+        {% else %}
+        <div class="text-center bg-teal-100 h-full flex items-center justify-items-center m-auto">
+            <p class="font-semibold text-2xl">Please select a conversation to start chatting.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

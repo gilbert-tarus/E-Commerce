@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Footer Layout</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Flexbox container */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures it covers full viewport height */
+        }
+        
+        /* Header styling */
+        .header {
+            background-color: #4CAF50;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        /* Main content (messages section) grows to fill available space */
+        .messages {
+            flex: 1; /* Takes remaining space */
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        
+        /* Footer styling */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+        
+        /* Adjustments for mobile */
+        @media (max-width: 768px) {
+            .header, .footer {
+                padding: 10px;
+            }
+            
+            .messages {
+                padding: 15px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>Header Section</h1>
+        </header>
+        
+        <!-- Messages Section -->
+        <main class="messages">
+            <p>This is the message section. Content can be small, but the footer will stay at the bottom!</p>
+        </main>
+        
+        <!-- Footer Section -->
+        <footer class="footer">
+            <p>Footer Content</p>
+        </footer>
+    </div>
+</body>
+</html>
+
+
+<!-- 
+To ensure that the footer is always at the bottom of the page, even when the content is small, you can use **CSS flexbox**. This will allow the main content section to grow and push the footer down, regardless of the amount of content. Here's a simple layout guide with recommended dimensions for good UI/UX:
+
+### 1. **HTML Structure:**
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Footer Layout</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="wrapper">
+        Header Section
+        <header class="header">
+            <h1>Header Section</h1>
+        </header>
+
+        Messages Section
+        <main class="messages">
+            <p>This is the message section. Content can be small, but the footer will stay at the bottom!</p>
+        </main>
+
+        Footer Section
+        <footer class="footer">
+            <p>Footer Content</p>
+        </footer>
+    </div>
+</body>
+</html>
+```
+
+### 2. **CSS for Layout and Responsiveness:**
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* Flexbox container */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures it covers full viewport height */
+}
+
+/* Header styling */
+.header {
+    background-color: #4CAF50;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+/* Main content (messages section) grows to fill available space */
+.messages {
+    flex: 1; /* Takes remaining space */
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+/* Footer styling */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+/* Adjustments for mobile */
+@media (max-width: 768px) {
+    .header, .footer {
+        padding: 10px;
+    }
+
+    .messages {
+        padding: 15px;
+    }
+}
+```
+
+### Key Details:
+- **Flexbox Layout (`display: flex` and `flex-direction: column`)**: This ensures that the wrapper element covers the full height of the viewport and the footer stays at the bottom when content is minimal.
+  
+- **`min-height: 100vh`**: This makes sure that the page always covers the full height of the screen.
+
+- **`flex: 1` on `.messages`**: Allows the message section to grow and take up the available space, pushing the footer to the bottom.
+
+### Suggested Dimensions for Better UI/UX:
+- **Header height**: Around **60-80px** on desktop, with a bit smaller padding (e.g., 10px) on mobile.
+- **Footer height**: Around **50-70px** for both desktop and mobile.
+- **Messages section padding**: Between **20-40px** for desktop and **15-20px** for mobile to create enough whitespace around your content for better readability.
+
+This layout will give you a clean, responsive UI/UX where the footer is always at the bottom, regardless of the content size!
+-->

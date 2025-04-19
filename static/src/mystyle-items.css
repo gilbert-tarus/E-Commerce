@@ -1,0 +1,208 @@
+
+/* Products Section */
+
+/* General reset for margins and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.products {
+    margin: 20px;
+    padding: 10px;
+}
+.products>.carousel-container>.carousel>.slide>h3{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color:darkcyan;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 1%;
+    font-weight:750;
+    font-size: 25px;
+    color: white;
+    
+}
+.product-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* Adjusts columns to fit screen size */
+    justify-content: space-between;
+}
+
+/* .product-grid>a> */
+.product-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+
+}
+
+/* .products>.product-grid>a> */
+.product-item .image{
+    height: 211px;
+    width: 100%;
+    margin: auto;
+}
+
+/* .products>.product-grid>a> */
+.product-item .image img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/* .products>.product-grid>a> */
+.product-item:hover {
+    transform: translateY(-5px);
+}
+
+/* .products>.product-grid>a> */
+.product-item .price{
+    /* font-size: 50%; */
+    font-size: 10px;
+    /* background-color: aqua; */
+    /* overflow: hidden; */
+    text-align: center;
+}
+
+/* .products>.product-grid>a> */
+.product-item .item-name{
+    overflow: hidden;
+    max-height: 30px;
+    margin-bottom:0;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    /* background-color: blue; */
+}
+
+/* .products>.product-grid>a> */
+.product-item .add-btn button{
+    background-color: rgb(202, 4, 4);
+    color: #f9f9f9;
+    margin: auto;
+    height: 10%;
+    width: 50%;
+    align-items: center;
+    padding: 1.5%;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+/* Add some responsiveness */
+@media (max-width: 768px) {
+    .products>.product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    .product-item h2, p{
+        /* font-size: 75%; */
+    }
+}
+
+@media (max-width: 380px) {
+    .products>.product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    .product-item h2, p{
+        /* font-size: 50%; */
+    }
+}
+
+
+/* -------------------------------------- */
+
+/* Carousel */
+
+/* -------------------------------------- */
+
+.carousel-container {
+    position: relative;
+    /* max-width: 800px; */
+    margin: auto;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: none;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+#products-browse{
+    /* width: 100%; */
+    display: flex;
+    justify-items: center;
+    justify-content: space-between;
+    /* border: black solid 2px; */
+}
+#products-browse .filters{
+    /* background-color: aqua; */
+    width: 20%;
+    /* display: grid; */
+    /* clear:both; */
+    /* padding: 5px 0; */
+}
+
+#product-grid-browse{
+    /* display: flex; */
+    /* background-color: blueviolet; */
+    width: 75%;
+    padding: 2%;
+    align-items: start;
+}
+
+/* Add some responsiveness */
+@media (max-width: 768px) {
+    #products-browse{
+        /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+        /* display: inline-block; */
+    }
+    .product-item h2, p{
+        /* font-size: 75%; */
+    }
+}
+
+@media (max-width: 380px) {
+    #products-browse {
+        /* grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); */
+        display: inline-block;
+    }
+    .product-item h2, p{
+        /* font-size: 50%; */
+    }
+}

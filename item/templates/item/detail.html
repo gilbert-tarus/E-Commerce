@@ -1,0 +1,58 @@
+{% extends 'core/base.html'%}
+
+{% block title %} {{ item.name }} {% endblock %}
+
+{% block content %}
+
+<div class="bg-gray-100 p-6 mx-auto mb-12 rounded">
+    <div class="col-span-3 flex">
+        <img src="{{ item.image.url }}" alt="" class="rounded-l h-96 float-left">
+        <div class="col-span-2 bg-gray-100 rounded-r py-3 px-6 float-right ml-1">
+            <h2 class="font-semibold text-3xl">{{item.name}}</h2>
+            <p class="mt-3 font-semibold">Price: <strong>KES. {{item.price}}</strong></p>
+            <p class="mt-3"><strong>Seller</strong>: {{item.created_by.first_name}} {{item.created_by.last_name}}</p>
+            {% if item.description %}
+            <h2 class="font-semibold text-2xl underline mt-4">Description</h2>
+            <p style="font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">{{item.description}}</p>
+            {% endif %}
+            
+            {% if request.user == item.created_by %}
+            <div class="mt-6 p-6 bg-white rounded-xl">
+                <p>This is your item!</p>
+                <a href="{% url 'item:edit' item.id %}" class="inline-block mt-6 ml-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl"> Edit </a>
+                <a href="{% url 'item:delete' item.id %}" class="inline-block mt-6 ml-6 px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded-xl"> Delete </a>
+            </div>
+            {% else %}
+            <a href="{% url 'conversation:new' item.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white hover:bg-teal-700 rounded-xl">Contact Seller</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+    <h2 class="mb-12 text-2xl text-center font-bold">Related Items</h2>
+    {% if related_items %}
+    <div class="product-grid "> <!-- grid gap-3 bg-white h-full rounded-xl -->
+        {% for item in related_items %}
+        <div class="product-item"> <!--  bg-green-500 w-80 rounded-xl m-1-->
+            <a href="{% url 'item:detail' item.id %}" >
+                <div class="image" > <!--  h-full mx-auto -->
+                    <img src="{{item.image.url}}" alt="Image of the item" class=""> <!-- rounded-t-xl h-96 w-80 -->
+                </div>
+                
+                <div class="item-name "> <!-- bg-white rounded-b-xl h-28 w-80 -->
+                    <h2 class="">{{item.name}}</h2> <!-- text-2xl mt-0 text-center -->
+                </div>
+                <div class="price">
+                    <p class="">Price: KES. {{item.price}}</p> <!-- text-gray-900 text-center -->
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-lg bg-rose-300">There are no related items at the moment</p>
+    {% endif %}
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'core/base.html'%}
+
+{% block title %} Welcome {%endblock%}
+
+{% block content %}
+<div class="grid border-gray-950">
+    <div class="bg-lime-500" id="test-div">
+        <h2 class="text-2xl text-center font-bold">Newest Items</h2>
+    </div>
+    <hr style="margin-bottom: 1%;">
+    <!-- <div class="items-area-items"> -->
+        <!-- <section class="products"> -->
+            <h3>Featured Products</h3>
+            <div class="product-grid">
+                {% for item in items %}
+                
+                <a href="{% url 'item:detail' item.id %}">
+                    <div class="item-container-items product-item">
+                        <img src="{{item.image.url}}">
+                        <h2>{{item.name}}</h2>
+                        <p class="text-gray-500 ">Price: KES. {{item.price}}</p>
+                        <button>Add to Cart</button>
+                        <!-- <div class="image-items">
+                            <img src="{{item.image.url}}">
+                        </div>
+                        <div class="item-details">
+                            <h2>{{item.name}}</h2>
+                            <p class="text-gray-500 ">Price: KES. {{item.price}}</p>
+                        </div> -->
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        <!-- </section> -->
+    <!-- </div> -->
+</div>
+
+
+<section class="products">
+    <h3>Featured Products</h3>
+    <div class="product-grid">
+        {% for item in items %}
+        <div class="product-item">
+            <img src="{{item.image.url}}" alt="Product 1">
+            <h4>{{item.name}}</h4>
+            <p>Price: KES. {{item.price}}</p>
+            <button>Add to Cart</button>
+        </div>
+        {%endfor%}
+        <!--         
+        <div class="product-item">
+            <img src="img_girl.jpg" alt="Product 2">
+            <h4>Product Name 2</h4>
+            <p>$79.99</p>
+            <button>Add to Cart</button>
+        </div> -->
+        <!-- Add more product items here -->
+    </div>
+</section>
+
+<div class="categories">
+    <h2 class="mb-12 text-2xl text-center">Categories</h2>
+    <hr style="margin-bottom: 1%;">
+    <div class="grid grid-cols-3 gap-3">
+        {% for category in categories%}
+        <div>
+            <a href="">
+                <div class="p-6 bg-white rounded-xl">
+                    <h2 class="text-2xl">{{category.name}}</h2>
+                    <p class="text-gray-500">{{category.items.count}}</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="" style="background-color: green; margin-top: 0.1%;">
+    <h1>Test Div 3</h1>
+</div>
+{% endblock %}

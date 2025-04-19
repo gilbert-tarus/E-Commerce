@@ -1,0 +1,71 @@
+{% extends 'core/base.html'%}
+
+{% block title %} Welcome {%endblock%}
+
+{% block content %}
+<section class="products">
+    <h3>Featured Products</h3>
+    <div class="product-grid">
+        {% for item in items %}
+        <a href="{% url 'item:detail' item.id %}">
+            <div class="product-item">
+                <div class="image-wrapper">
+                    <img src="{{item.image.url}}">
+                    <h2>{{item.name}}</h2>
+                    <p class="text-gray-500 ">Price: KES. {{item.price}}</p>
+                    <button>Add to Cart</button>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+
+    <!-- <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" style="display: none;" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" style="display: none;" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" style="display: none;" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <h3>Featured Products</h3>
+            </div>
+            <div class="carousel-item">
+                <h3>Get Exclusive Offers!! </h3>
+            </div>
+            <div class="carousel-item">
+                <h3>Offer Expires in 00:00:00</h3>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" style="font-size: small;" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" style="display: none;" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button"  data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" style="display: none;" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div> -->
+
+<div class="categories">
+    <h2 class="mb-12 text-2xl text-center">Categories</h2>
+    <hr style="margin-bottom: 1%;">
+    <div class="grid grid-cols-3 gap-3">
+        {% for category in categories%}
+        <div>
+            <a href="">
+                <div class="p-6 bg-white rounded-xl">
+                    <h2 class="text-2xl">{{category.name}}</h2>
+                    <p class="text-gray-500">{{category.items.count}}</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="" style="background-color: green; margin-top: 0.1%;">
+    <h1>Test Div 3</h1>
+</div>
+{% endblock %}

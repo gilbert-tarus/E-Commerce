@@ -1,0 +1,48 @@
+{% extends 'core/base.html'%}
+
+{% block title %} Inbox {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <!-- Left side: Conversations list -->
+    <div class="conversation-list" style="width: 25%; float: left; background-color: #F0F8FF;">
+        <h2 style="text-align: center;">Conversations</h2>
+        <ul style="list-style-type: none; padding: 0;">
+            {% for conversation in conversations %}
+            <li style="border-bottom: 1px solid #ddd; padding: 10px;">
+                <a href="{% url 'conversation:conversation-detail' conversation.id %}" style="text-decoration: none; color: black;">
+                    <div style="display: flex; align-items: center;">
+                        <img src="{{ conversation.item.image.url }}" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                        <div>
+                            {% for member in conversation.members.all %}
+                            {% if member != request.user %}
+                            <p class="sender-det" style="text-transform: capitalize;"><strong>{{ member }} | {{ conversation.modified_at }}</strong></p>
+                            <p class="subject-det" style="font-size: 50%; overflow-y: hidden;">{{ conversation.item.name }}</p>
+                            {% endif %}
+                            {% endfor %}
+                            <!-- <p><strong>{{ conversation.message.created_by }}</strong> | {{ conversation.message.created_at }}</p>
+                            <p>{{ conversation.last_message }}</p> -->
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- Right side: chat details -->
+    <div class="chat-details bg-slate-800" style="width: 70%; float: right; padding: 20px; border-left: 1px solid #ddd;">
+        <p>Test message</p>
+        {% if selected_conversation %}
+        <h3>{{conversation.name}}</h3>
+        <p>{{conversation.content }}</p>
+        
+        <!-- Add more details as needed -->
+        
+        {% else %}
+        <p>Please select conversation to view its details </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

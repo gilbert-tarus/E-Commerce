@@ -1,0 +1,82 @@
+{% extends 'core/base.html'%}
+
+{% block title %} Welcome {%endblock%}
+
+{% block content %}
+<section class="products">
+    
+    <div class="carousel-container">
+        <div class="carousel">
+            <div class="slide"><h3>Featured Products</h3></div>
+            <div class="slide"><h3>Get Exclusive Offers!! </h3></div>
+            <div class="slide"><h3>Offer Expires in 00:00:00</h3></div>
+        </div>
+        <button class="prev" onclick="prevSlide()">&#10094;</button>
+        <button class="next" onclick="nextSlide()">&#10095;</button>
+    </div>
+    <div class="product-grid">
+        {% for item in items %}
+        
+        <div class="product-item">
+            <a href="{% url 'item:detail' item.id %}" style="text-decoration: none;">
+                <div class="image">
+                    <img src="{{ item.image.url}}" alt="">
+                </div>
+                <div class="item-name">
+                    <h2>{{item.name}}</h2>
+                </div>
+                <div class="price">
+                    <p class="text-gray-500 ">Price: KES. {{item.price}}</p>
+                </div>
+            </a>
+            <div class="add-btn">
+                <button>Add to Cart</button>
+            </div>
+            
+        </div>
+        
+        {% endfor %}
+    </div>
+</section>
+<script>
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    
+    // Function to show the slide
+    function showSlide(index) {
+        const carousel = document.querySelector('.carousel');
+        const offset = -index * 100;
+        carousel.style.transform = `translateX(${offset}%)`;
+    }
+    
+    // Function to go to the next slide
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        showSlide(currentIndex);
+    }
+    
+    // Function to go to the previous slide
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        showSlide(currentIndex);
+    }
+    
+    // Auto-slide functionality
+    const autoSlideInterval = 3000; // 3000 ms = 3 seconds
+    let slideTimer = setInterval(nextSlide, autoSlideInterval);
+    
+    // Optional: Pause auto-slide when hovering over carousel
+    const carouselContainer = document.querySelector('.carousel-container');
+    carouselContainer.addEventListener('mouseenter', () => {
+        clearInterval(slideTimer);
+    });
+    
+    // Resume auto-slide when mouse leaves the carousel
+    carouselContainer.addEventListener('mouseleave', () => {
+        slideTimer = setInterval(nextSlide, autoSlideInterval);
+    });
+    
+    
+</script>
+{% endblock %}
